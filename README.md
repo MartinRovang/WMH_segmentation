@@ -6,58 +6,74 @@
     <img src="logo_new.jpg" alt="Logo" width="766" height="494">
   </a>
 
-  <h3 align="center">WMH segmentation production</h3>
-
   <p align="center">
-    WMH segmentation using FLAIR and/or T1 on MR volumes
+    WMH segmentation using FLAIR.
     <br />
-    <a href="https://github.com/CRAI-OUS/WMH-Segmentation_Productionn"><strong>Explore the docs »</strong></a><br>
+    <a href="https://arxiv.org/abs/2207.08467"><strong>Research article »</strong></a><br>
     <br />
     <br />
-    <a href="https://github.com/CRAI-OUS/WMH-Segmentation_Production/issues">Report Bug</a>
+    <a href="https://github.com/MartinRovang/WMH_segmentation/issues">Report Bug</a>
     ·
-    <a href="https://github.com/CRAI-OUS/WMH-Segmentation_Production/issues">Request Feature</a>
+    <a href="https://github.com/MartinRovang/WMH_segmentation/issues">Request Feature</a>
   </p>
 </p>
 
 
 ### Run on your own computer
 
-##### 1. Download repo
+#### 1. Clone repo.
 
-##### 2. Make sure you have all dependencies, pip install -r requirements.txt
+#### 2. Change directory to repo.
 
-##### 3. Change target directory in <code>config.py</code> and the model type : UNET or UUNET (UNET by default)
+#### 3. Add datafolder in current format;
+```
+-alldata
+  --ID1
+    ---annot.nii.gz
+    ---FLAIR.nii.gz
+  --ID2
+    ---annot.nii.gz
+    ---FLAIR.nii.gz
+  --ID3
+    ---annot.nii.gz
+    ---FLAIR.nii.gz
+...
+```
+#### 4. Run command `docker build -t WMHSEG `. 
 
-##### 4. Run <code>main_prediction.py</code>
+#### 5. Run command  `docker run -it --gpus all --shm-size=8g --ulimit memlock=-1 --ulimit stack=67108864  --rm -v ${PWD}/:/workspace wmh:latest /bin/bash`.
 
-#### Predictions will be made inside the subject folders with the name <code>F_seg.nii.gz</code>
+#### 6. Run command  `cd /workspace`.
+
+# For training (Needs scanner datafile)
+
+#### 1. Run command  `cd /2_5DWMHSEG_TRAIN`.
+#### 2. Change the conf/config.yaml file.
+#### 3. Run command  `python main.py`.
+
+# For prediction (Needs weight file)
+#### 1. Run command  `cd /2_5DSEG_PRED`.
+#### 2. Change config.yaml file.
+#### 1. Run command  `python main_prediction.py`.
+
+
+
+# Test results
 
 ```
-AVG Dice,                0.7385201129452749 
+AVG Dice,                0.70 +/- 0.13
 
-AVG HD,                  6.519434054410435 
+AVG HD,                  17.02 +/- 15.96
 
-AVG AVD,                 38.330993258895006 
+AVG AVD,                 45 +/- 51.00 
 
-AVG Lesion detection,    0.6300820370625283 
+AVG Lesion detection,    0.50 +/- 0.18
 
-AVG Lesion F1',          0.5453687214850291 
+AVG Lesion F1',          0.59 +/- 0.13 
 ```
 
-Fazekas predictions are now added into the pipeline. Note: Fazekas has very few data points, hence, not be predicted with great accuracy.
+The other models used:
 
-The Fazekas prediction will be outputted to `fazekas_scale.txt`.
+nnU-Net -> https://catalog.ngc.nvidia.com/orgs/nvidia/resources/nnunet_for_pytorch (Achieved best results)
 
-```
-              precision    recall  f1-score   support
-
-   fazekas 0       0.84      0.94      0.89        17
-   fazekas 1       0.85      0.68      0.76        25
-   fazekas 2       0.67      1.00      0.80        10
-   fazekas 3       1.00      0.33      0.50         3
-
-    accuracy                           0.80        55
-   macro avg       0.84      0.74      0.74        55
-weighted avg       0.82      0.80      0.79        55
-```
+Deep Bayesian Networks (Hypermapp3r) -> https://hypermapp3r.readthedocs.io/en/latest/
