@@ -1,0 +1,37 @@
+structure:
+  model: UNET
+  val_interval: 1
+  weights: /mnt/CRAI-NAS/all/martinsr/test_monai/WMHSEG_0.5/outputs/2022-04-28/16-46-22/best_metric_model_labelmentation2d_dict.pth
+  optimweights: /mnt/CRAI-NAS/all/martinsr/test_monai/WMHSEG_0.5/outputs/2022-04-28/16-46-22/best_metric_model_labelmentation2d_dict_optim.pth
+  loadweights: false
+  loadoptim: false
+  mini_batch_size: 8
+  train_patient_batch_size: 3
+  validation_patient_batch_size: 3
+  findLR: false
+  all_orientations: true
+hardware:
+  gpu: cuda:0
+datasets:
+  trainfolder: /mnt/HDD16TB/martinsr/DatasetWMH211018_v2/train
+  valfolder: /mnt/HDD16TB/martinsr/DatasetWMH211018_v2/val
+  datafolder: ../alldata
+  datasplit_test: 0.1
+  datasplit_val: 0.2
+  presplit: false
+  presplit_path: /mnt/CRAI-NAS/all/martinsr/test_monai/WMHSEG_0.5/outputs/2022-05-09/13-01-13
+hyperparams:
+  lr: 0.0001
+  epochs: 60
+  gamma: 1.333
+  alpha: 0.85
+  beta: 0.15
+  smoothing: 1
+  gradclip: 4
+  batch_accumulation: 1
+augmentations:
+  mixup: false
+  alpha: 0.4
+scheduelerparams:
+  factor: 0.2
+  patience: 2
