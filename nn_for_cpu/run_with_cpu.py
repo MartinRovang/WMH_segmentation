@@ -57,7 +57,7 @@ def inference(**kwargs):
     start = time.time()
     print("Loading model...")
     global model
-    model_state = torch.load("/results/checkpoints/epoch=208-dice_mean=78.55.ckpt")["state_dict"]
+    model_state = torch.load("/results/checkpoints/epoch=285-dice_mean=79.15.ckpt")["state_dict"]
     state_dict = {} 
 
     for k, v in model_state.items():
@@ -75,7 +75,7 @@ def inference(**kwargs):
     print("Segmenting...")
     for file in files:
         save_path_name = file.split("/")[-1]
-        data_nib = nib.load("/data/410748_1_01_20161216_NORAL00010188122_401_3D_Brain_View_FLAIRmod_SENSE_3D_Brain_View_FLAIRmod.nii.gz")
+        data_nib = nib.load(f"/data/{file}")
         x,y,z = data_nib.header.get_zooms()
         data = data_nib.get_fdata()
 
@@ -104,7 +104,7 @@ def inference(**kwargs):
         # save pred nifti
         pred = resize(pred, (data.shape[0], data.shape[1], data.shape[2]), order =0, mode = "edge", cval=0, clip=True, anti_aliasing=False)
 
-        nib.save(nib.Nifti1Image(pred, data_nib.affine,data_nib.header), f"/results/predictions_epoch=208-dice_mean=78.55_task=01_fold=0_tta/{save_path_name}")
+        nib.save(nib.Nifti1Image(pred, data_nib.affine,data_nib.header), f"/results/predictions_epoch=epoch=285-dice_mean=79.15_task=01_fold=0_tta/{save_path_name}")
 
     # end timer
     end = time.time()
