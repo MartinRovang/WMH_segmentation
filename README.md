@@ -18,6 +18,7 @@
   </p>
 </p>
 
+Weights can be recived on request.
 
 ### Run on your own computer
 
