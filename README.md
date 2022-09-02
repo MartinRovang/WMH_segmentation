@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/CRAI-OUS/WMH-Segmentation_Production">
-    <img src="logo_new.jpg" alt="Logo" width="766" height="494">
+    <img src="https://github.com/CRAI-OUS/WMH-Segmentation_Experiment/raw/main/images/Logo_splatter.jpg" alt="Logo" width="766" height="494">
   </a>
 
   <p align="center">
