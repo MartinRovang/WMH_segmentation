@@ -79,43 +79,9 @@ def merge_new_paths(files, datapath):
     return files
 
 def dataprocesser_pred(cfg, path) -> None:
-    data_files = []
-    FLAIRFILENAME = f'{cfg.data.filename}'
-    if cfg.testing.do_test == True:
-        console = Console()
-        console.print(f"[bold cyan] Loading data from file: {cfg.testing.test_file}")
-        
-        with open(f'{cfg.testing.test_file}', 'r') as f:
-            test_file_paths = eval(f.read())
-        
-        test_file_paths = merge_new_paths(test_file_paths, cfg.data.path)
-        
-        for testsample in test_file_paths:
-            testsample = testsample['image']
-            testsample = testsample.replace('Normed_F.nii.gz', f'{FLAIRFILENAME}')
-            try:
-                nib.load(testsample).get_fdata()
-                data_files.append({"img": testsample})
-            except Exception as e:
-                print(e)
-                print('Error in {} could not load'.format(os.path.join(path,patient, file)))
-                continue
-    else:
-        patients_train = glob.glob(path + '/*')
-        for patient in patients_train:
-            pat_files_flair = glob.glob(os.path.join(path, patient)+f'/*{FLAIRFILENAME}')
-            PASS_lock = True
-            if len(pat_files_flair) == 0:
-                PASS_lock = False
-            
-            if PASS_lock:
-                for file in os.listdir(os.path.join(path, patient)):
-                    if f'{FLAIRFILENAME}' in file:
-                        try:
-                            nib.load(os.path.join(path,patient, file)).get_fdata()
-                            data_files.append({"img": os.path.join(path, patient, file)})
-                        except Exception as e:
-                            print(e)
-                            print('Error in {} could not load'.format(os.path.join(path,patient, file)))
-                            continue
-    return data_files
+    files = glob.glob(path+"/*.nii.gz")
+
+
+    # list comprehension dictionary "img": file
+    files = [{"img": file} for file in files]
+    return files

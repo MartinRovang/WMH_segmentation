@@ -8,50 +8,15 @@ from monai.transforms import (
     LoadImaged,
     EnsureTyped,
     EnsureType,
-    CenterSpatialCropd,
-    SpatialPadd,
     CenterSpatialCrop,
     SpatialPad,
     AddChannel,
+    NormalizeIntensityd,
 )
-import torch
 import numpy as np
-from skimage.filters import threshold_otsu
-from skimage.morphology import closing, disk
 import numpy as np
 import nibabel as nib
 # 
-
-# class NormalizeBrain:
-#     def __init__(self, keys):
-#         self.keys = keys
-
-#     def __call__(self, image_dict):
-#         # Z-standardize the volume based on the brain intensity values
-#         image = image_dict[self.keys[0]]
-#         image[image < 0] = 0
-#         # Get the brain mask
-#         bin_out = image.copy()
-        
-#         thresh = threshold_otsu(bin_out)
-#         binary = (bin_out > thresh).astype('int')
-#         for i in range(0, bin_out.shape[1]):
-#             bin_out[0,i, :, :] = closing(binary[0,i, :, :], disk(12))
-        
-
-#         thresh = bin_out > 0
-#         thresh = thresh.flatten()
-#         brain_highlighted = image.copy().flatten()
-#         brain_highlighted = brain_highlighted[thresh > 0]
-#         brain_mean  = np.mean(brain_highlighted)
-#         brain_std = np.std(brain_highlighted)
-
-#         image = (image - brain_mean)/brain_std
-
-#         image_dict[self.keys[0]] = image
-
-#         return image_dict
-
 
 class NormalizeBrain:
     def __init__(self, keys):
@@ -110,7 +75,7 @@ preprocess_trans = Compose(
             LoadImaged(keys=["img"]),
             check_if_odd(keys=["img"]),
             AddChanneld(keys=["img"]),
-            NormalizeBrain(keys = ["img"]),
+            NormalizeIntensityd(keys="img", nonzero="True", channel_wise=True),
             EnsureTyped(keys=["img"]),
         ]
     )

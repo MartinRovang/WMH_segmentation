@@ -10,15 +10,13 @@ hydra:
 
 testing:
   do_test: False
-  test_file: /workspace/outputs/2022-05-09/23-35-18/valdatasplit.txt
+  test_file: /mnt/CRAI-NAS/all/martinsr/test_monai/WMHSEG_0.5/outputs/2022-05-09/23-35-18/valdatasplit.txt
 
 data:
-  path: "/workspace/alldata"
+  path: "data_test"
+  # path: "/mnt/HDD1TB/martinsr/alldata2"
   workers: 0
-  filename: FLAIR.nii.gz
-  outputmaskname: F_seg
 model:
-  weights: "/workspace/2_5DSEG_PRED/console_version/weights/wmh_modelweights_12_05_2022.pth"
-
-gpu:
-  device_pin: 0
+  weights: "weights/wmh_model_unique_data.pth"
+  fazekas_weight: "weights/classification_model_v04.pickle"
+  modeltype: "UNET"

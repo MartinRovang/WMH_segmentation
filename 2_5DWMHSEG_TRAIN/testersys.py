@@ -5,6 +5,7 @@ def values_standardized(x):
     x = np.unique(x)
     mmi = np.min(x)
     if mmi >= 0:
+        print(x)
         raise ValueError('The input is not z-standardized!')
     
 def values_eigthbit(x):

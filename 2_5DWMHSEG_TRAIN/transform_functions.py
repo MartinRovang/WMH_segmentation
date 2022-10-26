@@ -13,6 +13,7 @@ from monai.transforms import (
     SpatialPad,
     AsDiscreted,
     Resized,
+    NormalizeIntensityd,
 )
 import random
 import numpy as np
@@ -115,6 +116,7 @@ train_transforms = Compose(
     [
         LoadImaged(keys=["image", "label"]),
         AddChanneld(keys=["image", "label"]),
+        NormalizeIntensityd(keys="image", nonzero="True", channel_wise=True),
         EnsureTyped(keys=["image", "label"]),
         AsDiscreted(keys = ["label"], threshold = 0.89),
         EnsureTyped(keys=["image", "label"], data_type = 'numpy'),
@@ -126,6 +128,7 @@ val_transforms = Compose(
     [
         LoadImaged(keys=["image", "label"]),
         AddChanneld(keys=["image", "label"]),
+        NormalizeIntensityd(keys="image", nonzero="True", channel_wise=True),
         EnsureTyped(keys=["image", "label"]),
         AsDiscreted(keys = ["label"], threshold = 0.89),
         EnsureTyped(keys=["image", "label"], data_type = 'numpy'),
