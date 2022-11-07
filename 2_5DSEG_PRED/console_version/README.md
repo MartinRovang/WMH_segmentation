@@ -27,37 +27,25 @@
 
 ##### 2. Make sure you have all dependencies, pip install -r requirements.txt
 
-##### 3. Change target directory in <code>config.py</code> and the model type : UNET or UUNET (UNET by default)
+##### 3. Change target directory in <code>config.py</code> `@ weights: "weights/wmh_model_unique_data.pth"`  and the model type : UNET or UUNET (UNET by default) 
 
-##### 4. Run <code>main_prediction.py</code>
+##### 4. Make sure you have your data in the "data" folder in the same directory.
+
+##### 5. Run <code>main_prediction.py</code>
 
 #### Predictions will be made inside the subject folders with the name <code>F_seg.nii.gz</code>
 
 ```
-AVG Dice,                0.7385201129452749 
-
-AVG HD,                  6.519434054410435 
-
-AVG AVD,                 38.330993258895006 
-
-AVG Lesion detection,    0.6300820370625283 
-
-AVG Lesion F1',          0.5453687214850291 
+DSC:  0.6808092008717108 +- 0.1749727617385947
+Hausdorff:  9.751399615092273 +- 9.279947874717204
+Recall:  0.7914909337086632 +- 0.16611485702407042
+F1:  0.5269392661792544 +- 0.1548622287067465
+AVD:  55.08561295745984 +- 54.99577215339091
 ```
 
-Fazekas predictions are now added into the pipeline. Note: Fazekas has very few data points, hence, not be predicted with great accuracy.
-
-The Fazekas prediction will be outputted to `fazekas_scale.txt`.
-
-```
-              precision    recall  f1-score   support
-
-   fazekas 0       0.84      0.94      0.89        17
-   fazekas 1       0.85      0.68      0.76        25
-   fazekas 2       0.67      1.00      0.80        10
-   fazekas 3       1.00      0.33      0.50         3
-
-    accuracy                           0.80        55
-   macro avg       0.84      0.74      0.74        55
-weighted avg       0.82      0.80      0.79        55
-```
+### Data folder structure:
+-data
+  --ID1.nii.gz
+  --ID2.nii.gz
+  --ID3.nii.gz
+  ...

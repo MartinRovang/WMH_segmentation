@@ -100,10 +100,10 @@ class LesionMetric:
 
         # make pandas table
         df = pd.DataFrame(table_pandas)
-        df.to_csv(f'lesion_metrics_{output_extra}.csv', index=False)
+        df.to_csv(f'./plots_and_metrics_wmh/lesion_metrics/lesion_metrics_{output_extra}.csv', index=False)
 
         df_fp = pd.DataFrame(table_pandas_fp)
-        df_fp.to_csv(f'lesion_metrics_fp_{output_extra}.csv', index=False)
+        df_fp.to_csv(f'./plots_and_metrics_wmh/lesion_metrics/lesion_metrics_fp_{output_extra}.csv', index=False)
 
         # get row of all lesions within Average Lesion Size of [0, 0.05]
         # df_lesion_size = df[df['Average Lesion Size'] < 0.05]
@@ -113,8 +113,11 @@ class LesionMetric:
 
 if __name__ == '__main__':
     path_gt = '/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/labelsTs'
-    # path_target = '/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/predictions_epoch=550-dice_mean=77_44_task=15_fold=0_tta_test'
-    # path_target = "/mnt/CRAI-NAS/all/martinsr/test_monai/DatasetWMH211018_v2_newphase/pred"
-    path_target = "/mnt/CRAI-NAS/all/martinsr/test_monai/WMH-Segmentation_Production/console_version/result_test"
+    # path_gt = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/validation_fold_0/labelsV"
+    # path_gt = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/validation_fold_0/labelsV"
+
+    path_target = '/mnt/CRAI-NAS/all/martinsr/NNunet/results/predictions_epoch=550-dice_mean=77_44_3D_task=15_fold=0_tta_test_fixed_threshold'
+    # path_target = "/mnt/CRAI-NAS/all/martinsr/test_monai/test_brno_sample_newphase/pred"
+    # path_target = "/mnt/CRAI-NAS/all/martinsr/test_monai/WMH-Segmentation_Production/console_version/result_brno"
     lm = LesionMetric(path_gt, path_target)
-    lm.get_lesions(output_extra = "25D_test")
+    lm.get_lesions(output_extra = "3DNNunet_test")

@@ -28,17 +28,23 @@ Weights can be recived on request.
 
 #### 3. Add datafolder in current format;
 ```
--alldata
-  --ID1
-    ---annot.nii.gz
-    ---FLAIR.nii.gz
-  --ID2
-    ---annot.nii.gz
-    ---FLAIR.nii.gz
-  --ID3
-    ---annot.nii.gz
-    ---FLAIR.nii.gz
-...
+-data
+--imagesTr
+---ID1.nii.gz
+   ...
+   
+--labelsTr
+---ID1.nii.gz
+   ...
+
+--imagesvalTr
+---ID5.nii.gz
+   ...
+   
+--labelsvalTr
+---ID5.nii.gz
+   ...
+
 ```
 #### 4. Run command `docker build -t WMHSEG `. 
 

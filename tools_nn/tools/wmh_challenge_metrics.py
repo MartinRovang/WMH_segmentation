@@ -224,18 +224,20 @@ class WmhChallengeStats:
             
         return float(abs(testStatistics.GetSum() - resultStatistics.GetSum())) / float(testStatistics.GetSum()) * 100
 
-model_name = "25DUNet"
+model_name = "nnU-Net"
 # pred_folder ="/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/predictions_epoch=550-dice_mean=77_44_task=15_fold=0_tta"
+pred_folder = "/mnt/CRAI-NAS/all/martinsr/NNunet/results/predictions_epoch=550-dice_mean=77_44_3D_task=15_fold=0_tta_val_fixed_threshold"
 # pred_folder = "/mnt/CRAI-NAS/all/martinsr/test_monai/DatasetWMH211018_v2_newphase/pred"
-pred_folder = "/mnt/CRAI-NAS/all/martinsr/test_monai/WMH-Segmentation_Production/console_version/result_test"
+# pred_folder = "/mnt/CRAI-NAS/all/martinsr/test_monai/WMH-Segmentation_Production/console_version/result_test"
 # annot_folder = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/labelsBrno"
-annot_folder = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/labelsTs"
+# annot_folder = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/labelsBrno"
+annot_folder = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/validation_fold_0/labelsV"
 
 # annot_folder = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/labelsBrno"
 # pred_folder = "/mnt/CRAI-NAS/all/martinsr/test_monai/test_brno_sample_newphase/pred"
 stats  = WmhChallengeStats()
 stats.compute_folder_stats( annot_folder, pred_folder, model_name = model_name)
-stats.write_stats(f"test_{model_name}")
+stats.write_stats(f"val_{model_name}")
 
 
 dsc = []
@@ -271,7 +273,7 @@ print("Recall: ", recall_mean, "+-", recall_std)
 print("F1: ", f1_mean, "+-", f1_std)
 print("AVD: ", avd_mean, "+-", avd_std)
 
-with open(f"./../report/average_{model_name}_test.txt", "w") as f:
+with open(f"./../report/average_{model_name}_val.txt", "w") as f:
     f.write("DSC: "+str(dsc_mean)+"+-"+str(dsc_std)+"\n")
     f.write("Hausdorff: "+str(hausdorff_mean)+"+-"+str(hausdorff_std)+"\n")
     f.write("Recall: "+str(recall_mean)+"+-"+str(recall_std)+"\n")

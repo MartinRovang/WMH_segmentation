@@ -106,10 +106,10 @@ def discrete_cmap(N, base_cmap=None):
 
 
 
-folder = 'DatasetWMH211018_v2_testdata'
-all_subjects = glob.glob("/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/imagesTs/*nii.gz")
+folder = 'DatasetWMH211018_v2_test_fixed_threshold'
+all_subjects = glob.glob("/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/imagesTs/*.nii.gz")
 
-
+# CRAI-NAS/all/martinsr/test_monai/WMH-Segmentation_Production/console_version/data_brno
 
 if not os.path.exists(f'comparisons_{folder}'):
     os.mkdir(f'comparisons_{folder}')
@@ -123,7 +123,7 @@ for subject in all_subjects:
         GROUND_TRUTH = nib.load(f'/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/labelsTs/{pat_id}').get_fdata().astype(np.uint8)
         UNET2D_PRED = nib.load(f'/mnt/CRAI-NAS/all/martinsr/test_monai/WMH-Segmentation_Production/console_version/result_test/{pat_id}').get_fdata().astype(np.uint8)
 
-        NNUNET_PRED = nib.load(f'/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/predictions_epoch=550-dice_mean=77_44_task=15_fold=0_tta_test/{pat_id}').get_fdata().astype(np.uint8)
+        NNUNET_PRED = nib.load(f'/mnt/CRAI-NAS/all/martinsr/NNunet/results/predictions_epoch=550-dice_mean=77_44_3D_task=15_fold=0_tta_test_fixed_threshold/{pat_id}').get_fdata().astype(np.uint8)
         BAYESIAN_PRED = nib.load(f'/mnt/CRAI-NAS/all/martinsr/test_monai/DatasetWMH211018_v2_newphase/pred/{pat_id}').get_fdata().astype(np.uint8)
 
         slice_axis = [0, 1, 2]
@@ -141,11 +141,11 @@ for subject in all_subjects:
             bb = label_bb[0].bbox
             rmin, cmin, rmax, cmax = bb
             zoom_marker = patches.Rectangle((cmin-20,rmin-20),cmax-cmin+40,rmax-rmin+40, linewidth=2, edgecolor='r', facecolor='none')
-            ax[0, 0].set_title('FLAIR')
-            ax[0, 1].set_title('Zoomed in')
-            ax[0, 2].set_title('Prediction 2.5D')
-            ax[0, 3].set_title('Prediction 3D nn-UNet')
-            ax[0, 4].set_title('Prediction Deep Bayesian')
+            ax[0, 0].set_title('FLAIR', fontsize=20)
+            ax[0, 1].set_title('Zoomed in', fontsize=20)
+            ax[0, 2].set_title('Prediction 2.5D', fontsize=20)
+            ax[0, 3].set_title('Prediction 3D nn-UNet', fontsize=20)
+            ax[0, 4].set_title('Prediction Deep Bayesian', fontsize=20)
             ax[slc, 0].imshow(imgslic, cmap='gray')
             ax[slc, 1].imshow(imgslic[bb[0]-20:bb[2]+20, bb[1]-20:bb[3]+20], cmap='gray', interpolation='none')
             ax[slc, 2].imshow(imgslic[bb[0]-20:bb[2]+20, bb[1]-20:bb[3]+20], cmap='gray', interpolation='none')

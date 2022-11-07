@@ -326,23 +326,24 @@ def dataprocesser_v2() -> tuple:
     """
 
     console.rule("[bold red] Data")
-    val_file_path = "/mnt/CRAI-NAS/all/martinsr/NNunet/report/valsplit_3D_13_10_2022.txt"
-    with open(val_file_path, 'r') as f:
-        val_files_from_text = eval(f.read())
+    # val_file_path = "/mnt/CRAI-NAS/all/martinsr/NNunet/report/valsplit_3D_13_10_2022.txt"
+    # with open(val_file_path, 'r') as f:
+    #     val_files_from_text = eval(f.read())
 
-    val_ids = [x.split("/")[-1] for x in val_files_from_text]
-    val_ids = [x.split("_")[0] for x in val_ids]
-    train_ids = os.listdir("/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/imagesTr")
-    train_ids = [x.split(".nii.gz")[0] for x in train_ids]
-    # remove val ids from train ids
-    train_ids = [x for x in train_ids if x not in val_ids]
+    # val_ids = [x.split("/")[-1] for x in val_files_from_text]
+    # val_ids = [x.split("_")[0] for x in val_ids]
+    # train_ids = os.listdir("./imagesTr")
+    # train_ids = [x.split(".nii.gz")[0] for x in train_ids]
+    # # remove val ids from train ids
+    # train_ids = [x for x in train_ids if x not in val_ids]
 
-    all_files = glob.glob("/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/imagesTr/*.nii.gz")
-    train_files = [x for x in all_files if x.split("/")[-1].split(".nii.gz")[0] in train_ids]
-    val_files = [x for x in all_files if x.split("/")[-1].split(".nii.gz")[0] in val_ids]
+    all_files = glob.glob("./data/imagesTr/*.nii.gz")
+    
+    train_files = [x for x in all_files]
+    val_files = [x.replace("imagesTr", "imagesvalTr") for x in all_files]
 
     train_labels = [x.replace("imagesTr", "labelsTr") for x in train_files]
-    val_labels = [x.replace("imagesTr", "labelsTr") for x in val_files]
+    val_labels = [x.replace("imagesTr", "labelsvalTr") for x in val_files]
 
     N_train = len(train_files)
     N_val = len(val_files)

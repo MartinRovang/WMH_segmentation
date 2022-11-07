@@ -4,7 +4,7 @@ import glob
 import numpy as np
 import matplotlib.pyplot as plt
 
-path = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/labelsTs/*.nii.gz"
+path = "/mnt/CRAI-NAS/all/martinsr/NNunet/data/wmh_unique/labelsBrno/*.nii.gz"
 all_wmh = []
 
 
@@ -18,9 +18,9 @@ for file in glob.glob(path):
 sns.histplot(all_wmh, kde=False)
 plt.xlabel("Volume (ml)")
 plt.ylabel("Number of participants")
-plt.savefig("wmh_distribution_plot.svg")
-plt.savefig("wmh_distribution_plot.tif")
-plt.savefig("wmh_distribution_plot.jpg")
+plt.savefig("wmh_distribution_plot_brno.svg")
+plt.savefig("wmh_distribution_plot_brno.tif")
+plt.savefig("wmh_distribution_plot_brno.jpg")
 
 # median and interquantiles
 print(f"{np.median(all_wmh)} ({np.quantile(all_wmh, 0.25)}, {np.quantile(all_wmh, 0.75)})")
